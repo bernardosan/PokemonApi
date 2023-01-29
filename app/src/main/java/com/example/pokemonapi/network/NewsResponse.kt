@@ -1,10 +1,11 @@
-package com.bernardosan.newsapp.network
+package com.example.pokemonapi.network
 
-import com.bernardosan.newsapp.models.Article
+import com.example.pokemonapi.models.Pokemon
 import java.io.Serializable
 
 data class NewsResponse(
-    val status: String? = null,
-    val totalResults: Int? = null,
-    val articles: List<Article>? = null,
+    val count: Int,
+    val next: String? = null,
+    val previous: String? = null,
+    val articles: List<Pokemon>? = null,
     ) : Serializable

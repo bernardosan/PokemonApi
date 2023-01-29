@@ -1,36 +1,32 @@
-package com.bernardosan.newsapp.network
+package com.example.pokemonapi.network
 
 import android.util.Log
-import androidx.compose.runtime.*
-import com.bernardosan.newsapp.models.ArticleCategory
-import com.bernardosan.newsapp.models.getCategory
+import com.example.pokemonapi.models.ArticleCategory
+import com.example.pokemonapi.models.getCategory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class NewsManager {
-    private val _newsResponse =  mutableStateOf(NewsResponse())
-    val newsResponse: State<NewsResponse>
-        @Composable get() = remember{
-            _newsResponse
-        }
-
-    private val _getArticleByCategory = mutableStateOf(NewsResponse())
-    val getArticleCategory: State<NewsResponse>
-    @Composable get() = remember {
-        _getArticleByCategory
+    private var _newsResponse =  NewsResponse()
+    fun getNewsResponse(): NewsResponse {
+        return _newsResponse
     }
 
-    private val _getArticleBySource = mutableStateOf(NewsResponse())
-    val getArticleSource: State<NewsResponse>
-        @Composable get() = remember {
-            _getArticleBySource
-        }
+    private var _getArticleByCategory = NewsResponse()
+    fun getArticleByCategory(): NewsResponse {
+        return _getArticleByCategory
+    }
 
-    val selectedCategory: MutableState<ArticleCategory?> = mutableStateOf(ArticleCategory.GENERAL)
+    private var _getArticleBySource = NewsResponse()
+    fun getArticleBySource(): NewsResponse {
+        return _getArticleBySource
+    }
 
-    val sourceName = mutableStateOf("abc-news")
+
+    var selectedCategory: ArticleCategory? = ArticleCategory.GENERAL
+
 
     init {
         getArticles()
@@ -41,7 +37,7 @@ class NewsManager {
         service.enqueue(object: Callback<NewsResponse>{
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if(response.isSuccessful){
-                    _newsResponse.value = response.body()!!
+                    _newsResponse = response.body()!!
                 } else{
                     Log.d("error", response.errorBody().toString())
                 }
@@ -59,7 +55,7 @@ class NewsManager {
         service.enqueue(object: Callback<NewsResponse>{
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if(response.isSuccessful){
-                    _getArticleByCategory.value = response.body()!!
+                    _getArticleByCategory = response.body()!!
                 } else{
                     Log.d("error", response.errorBody().toString())
                 }
@@ -77,7 +73,7 @@ class NewsManager {
         service.enqueue(object: Callback<NewsResponse>{
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if(response.isSuccessful){
-                    _getArticleBySource.value = response.body()!!
+                    _getArticleBySource = response.body()!!
                 } else{
                     Log.d("error", response.errorBody().toString())
                 }
@@ -92,7 +88,7 @@ class NewsManager {
 
     fun onSelectedCategoryChanged(categoryName: String){
         val newCategory = getCategory(categoryName)
-        selectedCategory.value = newCategory
+        selectedCategory = newCategory
 
     }
 }
