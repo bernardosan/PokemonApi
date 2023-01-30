@@ -1,6 +1,5 @@
 package com.example.pokemonapi.models
 
-import com.example.pokemonapi.models.Pokemon
 import java.io.Serializable
 
 data class PokeResponse(

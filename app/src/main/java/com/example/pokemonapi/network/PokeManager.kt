@@ -1,15 +1,12 @@
 package com.example.pokemonapi.network
 
 import android.app.Activity
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.util.Log
 import com.example.pokemonapi.MainActivity
 import com.example.pokemonapi.models.PokeResponse
 import com.example.pokemonapi.models.Pokemon
 import com.example.pokemonapi.utils.Constants.BASE_URL
+import com.example.pokemonapi.utils.Constants.isNetworkAvailable
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Cache
@@ -112,26 +109,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             }
 
         })
-    }
-
-    fun isNetworkAvailable(context: Context): Boolean {
-        // It answers the queries about the state of network connectivity.
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network      = connectivityManager.activeNetwork ?: return false
-            val activeNetWork = connectivityManager.getNetworkCapabilities(network) ?: return false
-            return when {
-                activeNetWork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                activeNetWork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                //for other device how are able to connect with Ethernet
-                activeNetWork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        } else {
-            // Returns details about the currently active default data network.
-            val networkInfo = connectivityManager.activeNetworkInfo
-            return networkInfo != null && networkInfo.isConnectedOrConnecting
-        }
     }
 
 }
