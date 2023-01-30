@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import eu.tutorials.roomdemo.EmployeeEntity
+import com.example.pokemonapi.R
+import com.example.pokemonapi.databinding.ItemsRowBinding
+import com.example.pokemonapi.models.Pokemon
 
-class ItemAdapter(private val items: ArrayList<EmployeeEntity>,
-                  private val updateListener:(id:Int)->Unit,
-                  private val deleteListener:(id:Int)->Unit) :
+
+class ItemAdapter(private val items: List<Pokemon>):
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
 
@@ -25,7 +26,7 @@ class ItemAdapter(private val items: ArrayList<EmployeeEntity>,
         val item = items[position]
 
         holder.tvName.text = item.name
-        holder.tvEmail.text = item.email
+        holder.tvURL.text = item.url
 
         // Updating the background color according to the odd/even positions in list.
         if (position % 2 == 0) {
@@ -36,16 +37,9 @@ class ItemAdapter(private val items: ArrayList<EmployeeEntity>,
                 )
             )
         } else {
-            holder.llMain.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
+            holder.llMain.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
         }
 
-        holder.ivEdit.setOnClickListener {
-         updateListener.invoke(item.id)
-        }
-
-        holder.ivDelete.setOnClickListener {
-          deleteListener.invoke(item.id)
-        }
     }
 
     override fun getItemCount(): Int {
@@ -56,8 +50,6 @@ class ItemAdapter(private val items: ArrayList<EmployeeEntity>,
         // Holds the TextView that will add each item to
         val llMain = binding.llMain
         val tvName = binding.tvName
-        val tvEmail = binding.tvEmail
-        val ivEdit = binding.ivEdit
-        val ivDelete = binding.ivDelete
+        val tvURL = binding.tvURL
     }
 }

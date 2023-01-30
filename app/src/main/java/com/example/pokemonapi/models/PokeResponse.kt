@@ -1,11 +1,11 @@
-package com.example.pokemonapi.network
+package com.example.pokemonapi.models
 
 import com.example.pokemonapi.models.Pokemon
 import java.io.Serializable
 
-data class NewsResponse(
-    val count: Int,
+data class PokeResponse(
+    val count: Int? = null,
     val next: String? = null,
     val previous: String? = null,
-    val articles: List<Pokemon>? = null,
+    val results: List<Pokemon>? = null,
     ) : Serializable
